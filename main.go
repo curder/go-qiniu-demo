@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/curder/go-qiniu-demo/model"
 	"github.com/curder/go-qiniu-demo/config"
 	v "github.com/curder/go-qiniu-demo/pkg/version"
 	"github.com/spf13/pflag"
@@ -15,6 +16,7 @@ func main() {
 	var (
 		err   error
 	)
+
 	// 加载版本信息
 	pflag.Parse()
 	v.Init(*version)
@@ -25,6 +27,8 @@ func main() {
 	}
 
 	// 加载数据库
+	model.DB.Init()
+	defer model.DB.Close()
 
 	// 加载Redis缓存
 

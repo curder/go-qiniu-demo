@@ -1,6 +1,12 @@
 run_mode: debug                 # 开发模式, debug, release, test
 addr: :8080                     # HTTP绑定端口
 
+db:
+  addr: 127.0.0.1:3306            # 如果项目在docker中运行, 可以替换为对应的数据库容器服务名称，eg: db:3306
+  name: qiniu_demo
+  username: root
+  password: root
+
 redis:
   addr: "localhost:6379"
   password: "" # no password set
