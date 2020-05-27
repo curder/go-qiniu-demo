@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/curder/go-qiniu-demo/config"
+	"github.com/curder/go-qiniu-demo/handler"
 	"github.com/curder/go-qiniu-demo/model"
 	"github.com/curder/go-qiniu-demo/pkg/log"
 	"github.com/curder/go-qiniu-demo/pkg/redis"
@@ -49,8 +50,12 @@ func main() {
 	// 加载Gin框架
 	// 设置Gin模式
 	gin.SetMode(viper.GetString("run_mode"))
+	// 加载默认路由
 	router = gin.Default()
 	routers.Load(router)
+
+	// HealthCheck 健康检查路由
+	router.GET("/health", handler.HealthCheck)
 
 	log.Infof("Start to listening the incoming requests on http address: %s", viper.GetString("addr"))
 	srv = &http.Server{
