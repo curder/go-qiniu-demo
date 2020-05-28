@@ -2,12 +2,16 @@ package routers
 
 import (
 	"github.com/curder/go-qiniu-demo/handler"
+	"github.com/curder/go-qiniu-demo/handler/users"
 	"github.com/curder/go-qiniu-demo/routers/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 // Load loads the middlewares, routes, handlers.
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
+	var (
+		u *gin.RouterGroup
+	)
 	// 使用中间件
 	g.Use(middleware.NoCache)
 	g.Use(middleware.Options)
@@ -21,6 +25,12 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	g.NoMethod(handler.RouteNotFound)
 
 	// The user handlers, requiring authentication
-
+	u = g.Group("/v1/auth")
+	u.POST("/login", users.Login)
+	u.POST("/register", users.Register)
+	u.Use(middleware.AuthMiddleware())
+	{
+		u.GET("/users", users.Info)
+	}
 	return g
 }
