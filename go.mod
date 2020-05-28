@@ -27,6 +27,7 @@ require (
 	github.com/spf13/viper v1.7.0
 	github.com/teris-io/shortid v0.0.0-20171029131806-771a37caa5cf
 	github.com/toolkits/net v0.0.0-20160910085801-3f39ab6fe3ce
+	github.com/willf/pad v0.0.0-20200313202418-172aa767f2a4
 	github.com/yuin/gopher-lua v0.0.0-20200521060427-6ff375d91eab // indirect
 	go.uber.org/zap v1.15.0
 	golang.org/x/sys v0.0.0-20200523222454-059865788121 // indirect
