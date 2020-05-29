@@ -12,8 +12,8 @@ type Repo interface {
 	Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error)
 	ForceDelete(db *gorm.DB, id uint64) (rowsAffected int64, err error)
 	Update(db *gorm.DB, id uint64, domainMap map[string]interface{}) error
-	GetDomains(db *gorm.DB) (domains []*model.DomainModel, err error)
-	GetDomainByID(db *gorm.DB, id uint64) (domain *model.DomainModel, err error)
+	GetList(db *gorm.DB) (domains []*model.DomainModel, err error)
+	GetByID(db *gorm.DB, id uint64) (domain *model.DomainModel, err error)
 }
 
 // domainRepo 域名仓库
@@ -44,7 +44,7 @@ func (repo *domainRepo) Delete(db *gorm.DB, id uint64) (rowsAffected int64, err 
 func (repo *domainRepo) Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error) {
 	var (
 		domain model.DomainModel
-		result  *gorm.DB
+		result *gorm.DB
 	)
 
 	result = db.Unscoped().Where("id = ?", id).Find(&domain).Update("deleted_at", gorm.Expr("NULL"))
@@ -70,7 +70,7 @@ func (repo *domainRepo) Update(db *gorm.DB, id uint64, domainMap map[string]inte
 		domain *model.DomainModel
 	)
 	// 检查账户是否存在
-	if domain, err = repo.GetDomainByID(db, id); err != nil {
+	if domain, err = repo.GetByID(db, id); err != nil {
 		return err
 	}
 
@@ -78,7 +78,7 @@ func (repo *domainRepo) Update(db *gorm.DB, id uint64, domainMap map[string]inte
 }
 
 // 获取域名列表
-func (repo *domainRepo) GetDomains(db *gorm.DB) (domains []*model.DomainModel, err error) {
+func (repo *domainRepo) GetList(db *gorm.DB) (domains []*model.DomainModel, err error) {
 	var (
 		result *gorm.DB
 	)
@@ -90,7 +90,7 @@ func (repo *domainRepo) GetDomains(db *gorm.DB) (domains []*model.DomainModel, e
 }
 
 // 通过ID获取域名信息
-func (repo *domainRepo) GetDomainByID(db *gorm.DB, id uint64) (*model.DomainModel, error) {
+func (repo *domainRepo) GetByID(db *gorm.DB, id uint64) (*model.DomainModel, error) {
 	var (
 		domain model.DomainModel
 		result *gorm.DB

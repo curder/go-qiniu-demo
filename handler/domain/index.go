@@ -17,7 +17,7 @@ func Index(c *gin.Context) {
 		domains []*model.DomainModel
 		err     error
 	)
-	if domains, err = domain.DomainSvc.GetDomains(); err != nil {
+	if domains, err = domain.DomainSvc.GetList(); err != nil {
 		handler.SendResponse(c, errno.ErrDomainNotFound, nil)
 		return
 	}

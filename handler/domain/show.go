@@ -23,7 +23,7 @@ func Show(c *gin.Context) {
 
 	domainID, _ = strconv.Atoi(c.Param("id"))
 
-	if domainModel, err = domain.DomainSvc.GetDomainByID(uint64(domainID)); err != nil {
+	if domainModel, err = domain.DomainSvc.GetByID(uint64(domainID)); err != nil {
 		log.Warnf("[domain] show domain err, %v", err)
 		handler.SendResponse(c, errno.ErrDomainNotFound, nil)
 		return

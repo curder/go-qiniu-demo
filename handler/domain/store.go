@@ -45,7 +45,7 @@ func Store(c *gin.Context) {
 		Description: req.Description,
 	}
 
-	if id, err = domain.DomainSvc.CreateDomain(d); err != nil {
+	if id, err = domain.DomainSvc.Create(d); err != nil {
 		log.Warnf("[domain] store domain err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

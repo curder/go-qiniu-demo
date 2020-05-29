@@ -21,7 +21,7 @@ func Delete(c *gin.Context) {
 
 	domainID, _ = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = domain.DomainSvc.DeleteDomain(uint64(domainID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = domain.DomainSvc.Delete(uint64(domainID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[domain] delete domain err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

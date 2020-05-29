@@ -8,13 +8,13 @@ import (
 // Service 域名服务接口定义
 // 使用大写的service对外保留方法
 type Service interface {
-	CreateDomain(domain model.DomainModel) (id uint64, err error)
-	DeleteDomain(id uint64) (rowsAffected int64, err error)
-	RestoreDomain(id uint64) (rowsAffected int64, err error)
-	ForceDeleteDomain(id uint64) (rowsAffected int64, err error)
-	UpdateDomain(id uint64, domainMap map[string]interface{}) error
-	GetDomains() (domains []*model.DomainModel, err error)
-	GetDomainByID(id uint64) (domain *model.DomainModel, err error)
+	Create(domain model.DomainModel) (id uint64, err error)
+	Delete(id uint64) (rowsAffected int64, err error)
+	Restore(id uint64) (rowsAffected int64, err error)
+	ForceDelete(id uint64) (rowsAffected int64, err error)
+	Update(id uint64, domainMap map[string]interface{}) error
+	GetList() (domains []*model.DomainModel, err error)
+	GetByID(id uint64) (domain *model.DomainModel, err error)
 }
 
 // DomainSvc 直接初始化，可以避免在使用时再实例化
@@ -26,7 +26,7 @@ type domainSvc struct {
 }
 
 // 创建域名
-func (svc *domainSvc) CreateDomain(domain model.DomainModel) (id uint64, err error) {
+func (svc *domainSvc) Create(domain model.DomainModel) (id uint64, err error) {
 	if id, err = svc.domainRepo.Create(model.GetDB(), domain); err != nil {
 		return id, err
 	}
@@ -35,7 +35,7 @@ func (svc *domainSvc) CreateDomain(domain model.DomainModel) (id uint64, err err
 }
 
 // 删除域名
-func (svc *domainSvc) DeleteDomain(id uint64) (rowsAffected int64, err error) {
+func (svc *domainSvc) Delete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = svc.domainRepo.Delete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -44,7 +44,7 @@ func (svc *domainSvc) DeleteDomain(id uint64) (rowsAffected int64, err error) {
 }
 
 // 恢复域名
-func (svc *domainSvc) RestoreDomain(id uint64) (rowsAffected int64, err error) {
+func (svc *domainSvc) Restore(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = svc.domainRepo.Restore(model.GetDB(), id); err != nil {
 		return
 	}
@@ -53,7 +53,7 @@ func (svc *domainSvc) RestoreDomain(id uint64) (rowsAffected int64, err error) {
 }
 
 // 强制删除域名
-func (svc *domainSvc) ForceDeleteDomain(id uint64) (rowsAffected int64, err error) {
+func (svc *domainSvc) ForceDelete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = svc.domainRepo.ForceDelete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -62,7 +62,7 @@ func (svc *domainSvc) ForceDeleteDomain(id uint64) (rowsAffected int64, err erro
 }
 
 // 更新域名
-func (svc *domainSvc) UpdateDomain(id uint64, domainMap map[string]interface{}) (err error) {
+func (svc *domainSvc) Update(id uint64, domainMap map[string]interface{}) (err error) {
 	if err = svc.domainRepo.Update(model.GetDB(), id, domainMap); err != nil {
 		return
 	}
@@ -70,16 +70,16 @@ func (svc *domainSvc) UpdateDomain(id uint64, domainMap map[string]interface{}) 
 }
 
 // 获取域名列表
-func (svc *domainSvc) GetDomains() (domains []*model.DomainModel, err error) {
-	if domains, err = svc.domainRepo.GetDomains(model.GetDB()); err != nil {
+func (svc *domainSvc) GetList() (domains []*model.DomainModel, err error) {
+	if domains, err = svc.domainRepo.GetList(model.GetDB()); err != nil {
 		return
 	}
 	return
 }
 
 // 通过ID获取域名详情
-func (svc *domainSvc) GetDomainByID(id uint64) (domain *model.DomainModel, err error) {
-	if domain, err = svc.domainRepo.GetDomainByID(model.GetDB(), id); err != nil {
+func (svc *domainSvc) GetByID(id uint64) (domain *model.DomainModel, err error) {
+	if domain, err = svc.domainRepo.GetByID(model.GetDB(), id); err != nil {
 		return
 	}
 	return

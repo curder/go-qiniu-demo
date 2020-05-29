@@ -21,7 +21,7 @@ func Restore(c *gin.Context) {
 
 	domainID, err = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = domain.DomainSvc.RestoreDomain(uint64(domainID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = domain.DomainSvc.Restore(uint64(domainID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[domain] restore domain err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

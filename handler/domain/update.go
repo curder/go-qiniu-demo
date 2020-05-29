@@ -35,7 +35,7 @@ func Update(c *gin.Context) {
 	domainMap["hostname"] = req.Hostname
 	domainMap["description"] = req.Description
 
-	if err = domain.DomainSvc.UpdateDomain(uint64(domainID), domainMap); err != nil {
+	if err = domain.DomainSvc.Update(uint64(domainID), domainMap); err != nil {
 		log.Warnf("[domain] update domain err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return
