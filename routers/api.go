@@ -57,8 +57,8 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//u.GET("/:id", bucket.Show)
 		//u.PUT("/:id", bucket.Update)
 		u.DELETE("/:id", bucket.Delete)
-		//u.DELETE("/:id/force", bucket.ForceDelete)
 		u.PUT("/:id/restore", bucket.Restore)
+		u.DELETE("/:id/force", bucket.ForceDelete)
 	}
 
 	return g
