@@ -7,10 +7,10 @@ import (
 
 // Repo 定义用户仓库接口
 type Repo interface {
-	GetUserByID(db *gorm.DB, id uint64) (*model.UserModel, error)
-	GetUserByName(db *gorm.DB, name string) (*model.UserModel, error)
-	VerifyUsernameOrEmailExists(db *gorm.DB, username, email string) (*model.UserModel, error)
 	Create(db *gorm.DB, user model.UserModel) (id uint64, err error)
+	GetByID(db *gorm.DB, id uint64) (*model.UserModel, error)
+	GetByName(db *gorm.DB, name string) (*model.UserModel, error)
+	VerifyUsernameOrEmailExists(db *gorm.DB, username, email string) (*model.UserModel, error)
 }
 
 // userRepo 用户仓库
@@ -22,15 +22,15 @@ func NewUserRepo() Repo {
 }
 
 // 通过用户ID获取用户信息
-func (repo *userRepo) GetUserByID(db *gorm.DB, id uint64) (*model.UserModel, error) {
+func (repo *userRepo) GetByID(db *gorm.DB, id uint64) (*model.UserModel, error) {
 	user := &model.UserModel{}
 	result := db.Where("id = ?", id).First(user)
 
 	return user, result.Error
 }
 
-// GetUserByName 根据邮箱或用户名获取用户信息
-func (repo *userRepo) GetUserByName(db *gorm.DB, name string) (*model.UserModel, error) {
+// GetByName 根据邮箱或用户名获取用户信息
+func (repo *userRepo) GetByName(db *gorm.DB, name string) (*model.UserModel, error) {
 	var (
 		user   model.UserModel
 		result *gorm.DB

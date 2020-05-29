@@ -11,11 +11,11 @@ import (
 // Service 用户服务接口定义
 // 使用大写的service对外保留方法
 type Service interface {
-	GetUserByID(id uint64) (*model.UserModel, error)
-	GetUserByName(name string) (*model.UserModel, error)
+	Create(user model.UserModel) (id uint64, err error)
+	GetByID(id uint64) (*model.UserModel, error)
+	GetByName(name string) (*model.UserModel, error)
 	VerifyLogin(userModel *model.UserModel, password string) (*model.UserModel, error)
 	VerifyUsernameOrEmailExists(username, email string) bool
-	CreateUser(user model.UserModel) (id uint64, err error)
 }
 
 // UserSvc 直接初始化，可以避免在使用时再实例化
@@ -35,9 +35,9 @@ func NewUserService() Service {
 	}
 }
 
-// GetUserByID 通过ID查找用户信息
-func (srv *userService) GetUserByID(id uint64) (*model.UserModel, error) {
-	userModel, err := srv.userRepo.GetUserByID(model.GetDB(), id)
+// GetByID 通过ID查找用户信息
+func (srv *userService) GetByID(id uint64) (*model.UserModel, error) {
+	userModel, err := srv.userRepo.GetByID(model.GetDB(), id)
 	if err != nil {
 		return userModel, errors.Wrapf(err, "get user info err from db by id: %d", id)
 	}
@@ -45,14 +45,14 @@ func (srv *userService) GetUserByID(id uint64) (*model.UserModel, error) {
 	return userModel, nil
 }
 
-// GetUserByName 通过用户名或者邮箱获取用户信息
-func (srv *userService) GetUserByName(name string) (*model.UserModel, error) {
+// GetByName 通过用户名或者邮箱获取用户信息
+func (srv *userService) GetByName(name string) (*model.UserModel, error) {
 	var (
 		userModel *model.UserModel
 		err       error
 	)
 
-	if userModel, err = srv.userRepo.GetUserByName(model.GetDB(), name); err != nil || gorm.IsRecordNotFoundError(err) {
+	if userModel, err = srv.userRepo.GetByName(model.GetDB(), name); err != nil || gorm.IsRecordNotFoundError(err) {
 		return userModel, errors.Wrapf(err, "get user info err from db by email: %s", name)
 	}
 
@@ -92,7 +92,7 @@ func (srv *userService) VerifyUsernameOrEmailExists(username, email string) bool
 }
 
 // 创建用户
-func (srv *userService) CreateUser(user model.UserModel) (id uint64, err error) {
+func (srv *userService) Create(user model.UserModel) (id uint64, err error) {
 	// 加密用户密码
 	if user.Password, err = auth.Encrypt(user.Password); err != nil {
 		return 0, err

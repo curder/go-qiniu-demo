@@ -40,7 +40,7 @@ func Register(c *gin.Context) {
 		Email:    req.Email,
 		Password: req.Password,
 	}
-	if u.ID, err = user.UserSvc.CreateUser(u); err != nil {
+	if u.ID, err = user.UserSvc.Create(u); err != nil {
 		log.Warnf("[register] create u err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

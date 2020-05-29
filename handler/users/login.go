@@ -40,7 +40,7 @@ func Login(c *gin.Context) {
 	}
 
 	// 如果用户已经存在，则通过用户名或者邮箱获取用户信息
-	if u, err = user.UserSvc.GetUserByName(req.Name); err != nil {
+	if u, err = user.UserSvc.GetByName(req.Name); err != nil {
 		log.Warnf("[login] get u info err, %v", err)
 		handler.SendResponse(c, errno.ErrUserNotFound, nil)
 		return

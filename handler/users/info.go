@@ -21,7 +21,7 @@ func Info(c *gin.Context) {
 	userID = handler.GetUserID(c)
 
 	// 通过用户ID查找用户信息
-	if userModel, err = user.UserSvc.GetUserByID(userID); err != nil {
+	if userModel, err = user.UserSvc.GetByID(userID); err != nil {
 		handler.SendResponse(c, errno.ErrUserNotFound, nil)
 		return
 	}
