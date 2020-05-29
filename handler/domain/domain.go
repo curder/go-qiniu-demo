@@ -7,3 +7,13 @@ type StoreDomainRequest struct {
 	Hostname    string `json:"hostname" form:"hostname" binding:"required"`
 	Description string `json:"description" form:"description"`
 }
+
+type ShowDomainInfoResponse struct {
+	ID          uint64 `json:"id"`
+	BucketID    uint64 `json:"bucket_id"`
+	Protocol    string `json:"protocol"`
+	Hostname    string `json:"hostname"`
+	Description string `json:"description"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}
