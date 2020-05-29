@@ -66,7 +66,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	u = g.Group("/v1/domains")
 	u.Use(middleware.AuthMiddleware())
 	{
-		//u.GET("", domain.Index)
+		u.GET("", domain.Index)
 		u.POST("", domain.Store)
 		u.GET("/:id", domain.Show)
 		u.PUT("/:id", domain.Update)
