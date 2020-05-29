@@ -93,25 +93,27 @@ func (b bucketRepo) GetBuckets(db *gorm.DB) (buckets []*model.BucketModel, err e
 // 通过ID获取存储桶
 func (b bucketRepo) GetBucketByID(db *gorm.DB, id uint64) (bucket *model.BucketModel, err error) {
 	var (
-		result *gorm.DB
+		bucketModel model.BucketModel
+		result      *gorm.DB
 	)
 
-	result = db.Where("id = ?", id).First(&bucket)
+	result = db.Where("id = ?", id).First(&bucketModel)
 	err = result.Error
 
-	return
+	return &bucketModel, err
 }
 
 // 通过名称获取存储桶
 func (b bucketRepo) GetBucketByName(db *gorm.DB, name string) (bucket *model.BucketModel, err error) {
 	var (
-		result *gorm.DB
+		bucketModel model.BucketModel
+		result      *gorm.DB
 	)
 
 	result = db.Where("name = ?", name).First(&bucket)
 	err = result.Error
 
-	return
+	return &bucketModel, err
 }
 
 // NewBucketRepo 实例化存储桶仓库

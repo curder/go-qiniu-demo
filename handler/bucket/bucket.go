@@ -6,3 +6,9 @@ type StoreBucketRequest struct {
 	Name        string `json:"name" form:"name" binding:"required"`
 	Description string `json:"description" form:"description"`
 }
+
+// 更新
+type UpdateBucketInfoRequest struct {
+	Name        string `json:"name" form:"name" binding:"required"`
+	Description string `json:"description" form:"description"`
+}
