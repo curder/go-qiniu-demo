@@ -23,7 +23,7 @@ func Show(c *gin.Context) {
 
 	bucketID, _ = strconv.Atoi(c.Param("id"))
 
-	if bucketModel, err = bucket.BucketSvc.GetBucketByID(uint64(bucketID)); err != nil {
+	if bucketModel, err = bucket.BucketSvc.GetByID(uint64(bucketID)); err != nil {
 		log.Warnf("[bucket] show bucket err, %v", err)
 		handler.SendResponse(c, errno.ErrBucketNotFound, nil)
 		return

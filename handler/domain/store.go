@@ -33,7 +33,7 @@ func Store(c *gin.Context) {
 	log.Infof("req %#v", req)
 
 	// 判断存储桶是否存在
-	if _, err = bucket.BucketSvc.GetBucketByID(uint64(bucketID)); err != nil {
+	if _, err = bucket.BucketSvc.GetByID(uint64(bucketID)); err != nil {
 		handler.SendResponse(c, errno.ErrBucketNotFound, nil)
 		return
 	}

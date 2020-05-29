@@ -12,9 +12,9 @@ type Repo interface {
 	Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error)
 	ForceDelete(db *gorm.DB, id uint64) (rowsAffected int64, err error)
 	Update(db *gorm.DB, id uint64, bucketMap map[string]interface{}) error
-	GetBuckets(db *gorm.DB) (buckets []*model.BucketModel, err error)
-	GetBucketByID(db *gorm.DB, id uint64) (bucket *model.BucketModel, err error)
-	GetBucketByName(db *gorm.DB, name string) (bucket *model.BucketModel, err error)
+	GetList(db *gorm.DB) (buckets []*model.BucketModel, err error)
+	GetByID(db *gorm.DB, id uint64) (bucket *model.BucketModel, err error)
+	GetByName(db *gorm.DB, name string) (bucket *model.BucketModel, err error)
 }
 
 // bucketRepo 用户仓库
@@ -71,7 +71,7 @@ func (b bucketRepo) Update(db *gorm.DB, id uint64, bucketMap map[string]interfac
 		bucket *model.BucketModel
 	)
 	// 检查账户是否存在
-	if bucket, err = b.GetBucketByID(db, id); err != nil {
+	if bucket, err = b.GetByID(db, id); err != nil {
 		return
 	}
 
@@ -79,7 +79,7 @@ func (b bucketRepo) Update(db *gorm.DB, id uint64, bucketMap map[string]interfac
 }
 
 // 获取存储桶列表
-func (b bucketRepo) GetBuckets(db *gorm.DB) (buckets []*model.BucketModel, err error) {
+func (b bucketRepo) GetList(db *gorm.DB) (buckets []*model.BucketModel, err error) {
 	var (
 		result *gorm.DB
 	)
@@ -91,7 +91,7 @@ func (b bucketRepo) GetBuckets(db *gorm.DB) (buckets []*model.BucketModel, err e
 }
 
 // 通过ID获取存储桶
-func (b bucketRepo) GetBucketByID(db *gorm.DB, id uint64) (bucket *model.BucketModel, err error) {
+func (b bucketRepo) GetByID(db *gorm.DB, id uint64) (bucket *model.BucketModel, err error) {
 	var (
 		bucketModel model.BucketModel
 		result      *gorm.DB
@@ -104,7 +104,7 @@ func (b bucketRepo) GetBucketByID(db *gorm.DB, id uint64) (bucket *model.BucketM
 }
 
 // 通过名称获取存储桶
-func (b bucketRepo) GetBucketByName(db *gorm.DB, name string) (bucket *model.BucketModel, err error) {
+func (b bucketRepo) GetByName(db *gorm.DB, name string) (bucket *model.BucketModel, err error) {
 	var (
 		bucketModel model.BucketModel
 		result      *gorm.DB

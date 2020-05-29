@@ -44,7 +44,7 @@ func Store(c *gin.Context) {
 		Description: req.Description,
 	}
 
-	if id, err = bucket.BucketSvc.CreateBucket(b); err != nil {
+	if id, err = bucket.BucketSvc.Create(b); err != nil {
 		log.Warnf("[bucket] store account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

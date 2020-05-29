@@ -21,7 +21,7 @@ func Delete(c *gin.Context) {
 
 	bucketID, _ = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = bucket.BucketSvc.DeleteBucket(uint64(bucketID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = bucket.BucketSvc.Delete(uint64(bucketID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[bucket] delete bucket err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

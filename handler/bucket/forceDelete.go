@@ -21,7 +21,7 @@ func ForceDelete(c *gin.Context) {
 
 	bucketID, err = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = bucket.BucketSvc.ForceDeleteBucket(uint64(bucketID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = bucket.BucketSvc.ForceDelete(uint64(bucketID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[bucket] delete bucket err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

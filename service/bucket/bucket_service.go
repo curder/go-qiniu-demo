@@ -8,14 +8,14 @@ import (
 // Service 用户服务接口定义
 // 使用大写的service对外保留方法
 type Service interface {
-	CreateBucket(bucket model.BucketModel) (id uint64, err error)
-	DeleteBucket(id uint64) (rowsAffected int64, err error)
-	RestoreBucket(id uint64) (rowsAffected int64, err error)
-	ForceDeleteBucket(id uint64) (rowsAffected int64, err error)
-	UpdateBucket(id uint64, bucketMap map[string]interface{}) error
-	GetBuckets() (buckets []*model.BucketModel, err error)
-	GetBucketByID(id uint64) (bucket *model.BucketModel, err error)
-	GetBucketByName(name string) (bucket *model.BucketModel, err error)
+	Create(bucket model.BucketModel) (id uint64, err error)
+	Delete(id uint64) (rowsAffected int64, err error)
+	Restore(id uint64) (rowsAffected int64, err error)
+	ForceDelete(id uint64) (rowsAffected int64, err error)
+	Update(id uint64, bucketMap map[string]interface{}) error
+	GetList() (buckets []*model.BucketModel, err error)
+	GetByID(id uint64) (bucket *model.BucketModel, err error)
+	GetByName(name string) (bucket *model.BucketModel, err error)
 }
 
 // BucketSvc 直接初始化，可以避免在使用时再实例化
@@ -27,7 +27,7 @@ type bucketSvc struct {
 }
 
 // 创建存储桶
-func (b *bucketSvc) CreateBucket(bucket model.BucketModel) (id uint64, err error) {
+func (b *bucketSvc) Create(bucket model.BucketModel) (id uint64, err error) {
 	if id, err = b.bucketRepo.Create(model.GetDB(), bucket); err != nil {
 		return id, err
 	}
@@ -36,7 +36,7 @@ func (b *bucketSvc) CreateBucket(bucket model.BucketModel) (id uint64, err error
 }
 
 // 删除存储桶
-func (b *bucketSvc) DeleteBucket(id uint64) (rowsAffected int64, err error) {
+func (b *bucketSvc) Delete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = b.bucketRepo.Delete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -45,7 +45,7 @@ func (b *bucketSvc) DeleteBucket(id uint64) (rowsAffected int64, err error) {
 }
 
 // 恢复存储桶
-func (b *bucketSvc) RestoreBucket(id uint64) (rowsAffected int64, err error) {
+func (b *bucketSvc) Restore(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = b.bucketRepo.Restore(model.GetDB(), id); err != nil {
 		return
 	}
@@ -54,7 +54,7 @@ func (b *bucketSvc) RestoreBucket(id uint64) (rowsAffected int64, err error) {
 }
 
 // 强制删除存储桶
-func (b *bucketSvc) ForceDeleteBucket(id uint64) (rowsAffected int64, err error) {
+func (b *bucketSvc) ForceDelete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = b.bucketRepo.ForceDelete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (b *bucketSvc) ForceDeleteBucket(id uint64) (rowsAffected int64, err error)
 }
 
 // 更新存储桶
-func (b *bucketSvc) UpdateBucket(id uint64, bucketMap map[string]interface{}) (err error) {
+func (b *bucketSvc) Update(id uint64, bucketMap map[string]interface{}) (err error) {
 	if err = b.bucketRepo.Update(model.GetDB(), id, bucketMap); err != nil {
 		return
 	}
@@ -71,24 +71,24 @@ func (b *bucketSvc) UpdateBucket(id uint64, bucketMap map[string]interface{}) (e
 }
 
 // 获取存储桶列表
-func (b *bucketSvc) GetBuckets() (buckets []*model.BucketModel, err error) {
-	if buckets, err = b.bucketRepo.GetBuckets(model.GetDB()); err != nil {
+func (b *bucketSvc) GetList() (buckets []*model.BucketModel, err error) {
+	if buckets, err = b.bucketRepo.GetList(model.GetDB()); err != nil {
 		return
 	}
 	return
 }
 
 // 通过ID获取存储桶信息
-func (b *bucketSvc) GetBucketByID(id uint64) (bucket *model.BucketModel, err error) {
-	if bucket, err = b.bucketRepo.GetBucketByID(model.GetDB(), id); err != nil {
+func (b *bucketSvc) GetByID(id uint64) (bucket *model.BucketModel, err error) {
+	if bucket, err = b.bucketRepo.GetByID(model.GetDB(), id); err != nil {
 		return
 	}
 	return
 }
 
 // 通过名称获取存储桶
-func (b *bucketSvc) GetBucketByName(name string) (bucket *model.BucketModel, err error) {
-	if bucket, err = b.bucketRepo.GetBucketByName(model.GetDB(), name); err != nil {
+func (b *bucketSvc) GetByName(name string) (bucket *model.BucketModel, err error) {
+	if bucket, err = b.bucketRepo.GetByName(model.GetDB(), name); err != nil {
 		return
 	}
 	return

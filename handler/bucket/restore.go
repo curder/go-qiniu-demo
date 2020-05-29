@@ -21,7 +21,7 @@ func Restore(c *gin.Context) {
 
 	bucketID, err = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = bucket.BucketSvc.RestoreBucket(uint64(bucketID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = bucket.BucketSvc.Restore(uint64(bucketID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[bucket] restore bucket err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

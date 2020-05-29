@@ -17,7 +17,7 @@ func Index(c *gin.Context) {
 		accounts []*model.BucketModel
 		err      error
 	)
-	if accounts, err = bucket.BucketSvc.GetBuckets(); err != nil {
+	if accounts, err = bucket.BucketSvc.GetList(); err != nil {
 		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
 		return
 	}

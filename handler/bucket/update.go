@@ -12,7 +12,7 @@ import (
 // 更新
 func Update(c *gin.Context) {
 	var (
-		req UpdateBucketInfoRequest
+		req       UpdateBucketInfoRequest
 		bucketID  int
 		bucketMap map[string]interface{}
 		err       error
@@ -33,7 +33,7 @@ func Update(c *gin.Context) {
 	bucketMap["name"] = req.Name
 	bucketMap["description"] = req.Description
 
-	if err = bucket.BucketSvc.UpdateBucket(uint64(bucketID), bucketMap); err != nil {
+	if err = bucket.BucketSvc.Update(uint64(bucketID), bucketMap); err != nil {
 		log.Warnf("[bucket] update bucket err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return
