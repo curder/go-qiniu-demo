@@ -15,3 +15,13 @@ type UpdateAccountRequest struct {
 	SecretKey   string `json:"secret_key" form:"secret_key" binding:"required" example:"xxxxxx"`
 	Description string `json:"description" form:"description"`
 }
+
+// 账户详情响应
+type ShowAccountResponse struct {
+	ID          uint64 `json:"id"`
+	AccountKey  string `json:"access_key"`
+	SecretKey   string `json:"secret_key"`
+	Description string `json:"description"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+}

@@ -39,7 +39,9 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		u.GET("", account.Index)
 		u.POST("", account.Store)
+		u.GET("/:id", account.Show)
 		u.PUT("/:id", account.Update)
+		u.DELETE("/:id", account.Delete)
 	}
 
 	return g
