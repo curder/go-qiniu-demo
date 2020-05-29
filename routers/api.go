@@ -71,7 +71,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		//u.GET("/:id", domain.Show)
 		//u.PUT("/:id", domain.Update)
 		u.DELETE("/:id", domain.Delete)
-		//u.PUT("/:id/restore", domain.Restore)
+		u.PUT("/:id/restore", domain.Restore)
 		//u.DELETE("/:id/force", domain.ForceDelete)
 	}
 

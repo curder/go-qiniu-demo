@@ -43,11 +43,11 @@ func (repo *domainRepo) Delete(db *gorm.DB, id uint64) (rowsAffected int64, err 
 // 恢复域名
 func (repo *domainRepo) Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error) {
 	var (
-		account model.AccountModel
+		domain model.DomainModel
 		result  *gorm.DB
 	)
 
-	result = db.Unscoped().Where("id = ?", id).Find(&account).Update("deleted_at", gorm.Expr("NULL"))
+	result = db.Unscoped().Where("id = ?", id).Find(&domain).Update("deleted_at", gorm.Expr("NULL"))
 
 	return result.RowsAffected, result.Error
 }
