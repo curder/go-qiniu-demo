@@ -54,7 +54,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		//u.GET("", bucket.Index)
 		u.POST("", bucket.Store)
-		//u.GET("/:id", bucket.Show)
+		u.GET("/:id", bucket.Show)
 		u.PUT("/:id", bucket.Update)
 		u.DELETE("/:id", bucket.Delete)
 		u.PUT("/:id/restore", bucket.Restore)

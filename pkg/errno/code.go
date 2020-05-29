@@ -23,4 +23,7 @@ var (
 
 	// account errors
 	ErrAccountNotFound = &Errno{Code: 20200, Message: "The account resource was not found."}
+
+	// bucket errors
+	ErrBucketNotFound = &Errno{Code: 20300, Message: "The bucket resource was not found."}
 )
