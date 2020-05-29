@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `qiniu_domains` (
   `bucket_id` bigint(20) unsigned NOT NULL COMMENT '所属存储桶',
   `protocol` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '服务协议，包含http/https，默认https',
   `hostname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '域名主机',
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '域名描述',
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

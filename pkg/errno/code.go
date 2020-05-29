@@ -26,4 +26,7 @@ var (
 
 	// bucket errors
 	ErrBucketNotFound = &Errno{Code: 20300, Message: "The bucket resource was not found."}
+
+	//
+	ErrDomainNotFound = &Errno{Code: 20400, Message: "The bucket resource was not found"}
 )

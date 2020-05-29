@@ -4,6 +4,7 @@ import (
 	"github.com/curder/go-qiniu-demo/handler"
 	"github.com/curder/go-qiniu-demo/handler/account"
 	"github.com/curder/go-qiniu-demo/handler/bucket"
+	"github.com/curder/go-qiniu-demo/handler/domain"
 	"github.com/curder/go-qiniu-demo/handler/users"
 	"github.com/curder/go-qiniu-demo/routers/middleware"
 	"github.com/gin-gonic/gin"
@@ -59,6 +60,19 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		u.DELETE("/:id", bucket.Delete)
 		u.PUT("/:id/restore", bucket.Restore)
 		u.DELETE("/:id/force", bucket.ForceDelete)
+	}
+
+	// Domains
+	u = g.Group("/v1/domains")
+	u.Use(middleware.AuthMiddleware())
+	{
+		//u.GET("", domain.Index)
+		u.POST("", domain.Store)
+		//u.GET("/:id", domain.Show)
+		//u.PUT("/:id", domain.Update)
+		u.DELETE("/:id", domain.Delete)
+		//u.PUT("/:id/restore", domain.Restore)
+		//u.DELETE("/:id/force", domain.ForceDelete)
 	}
 
 	return g
