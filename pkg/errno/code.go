@@ -20,4 +20,7 @@ var (
 	ErrTokenInvalid      = &Errno{Code: 20103, Message: "The token was invalid."}
 	ErrPasswordIncorrect = &Errno{Code: 20104, Message: "The password was incorrect."}
 	ErrUserExists        = &Errno{Code: 20105, Message: "The user was already exists."}
+
+	// account errors
+	ErrAccountNotFound = &Errno{Code: 20200, Message: "The account resource was not found."}
 )

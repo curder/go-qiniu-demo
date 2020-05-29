@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/curder/go-qiniu-demo/handler"
+	"github.com/curder/go-qiniu-demo/handler/account"
 	"github.com/curder/go-qiniu-demo/handler/users"
 	"github.com/curder/go-qiniu-demo/routers/middleware"
 	"github.com/gin-gonic/gin"
@@ -32,5 +33,14 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	{
 		u.GET("/users", users.Info)
 	}
+
+	u = g.Group("/v1/accounts")
+	u.Use(middleware.AuthMiddleware())
+	{
+		u.GET("", account.Index)
+		u.POST("", account.Store)
+		u.PUT("/:id", account.Update)
+	}
+
 	return g
 }
