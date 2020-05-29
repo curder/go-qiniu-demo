@@ -6,7 +6,7 @@ import "time"
 type BucketModel struct {
 	ID          uint64       `json:"id" gorm:"primary_key;AUTO_INCREMENT;column:id"`
 	// Account     AccountModel `gorm:"foreignkey:AccountID"` // use AccountID as foreign key
-	AccountID   uint64       `json:"id" gorm:"column:account_id"`
+	AccountID   uint64       `json:"account_id" gorm:"column:account_id"`
 	Name        string       `json:"name" gorm:"column:name"`
 	Description string       `json:"description" gorm:"description"`
 

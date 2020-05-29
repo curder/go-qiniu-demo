@@ -52,7 +52,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 	u = g.Group("/v1/buckets")
 	u.Use(middleware.AuthMiddleware())
 	{
-		//u.GET("", bucket.Index)
+		u.GET("", bucket.Index)
 		u.POST("", bucket.Store)
 		u.GET("/:id", bucket.Show)
 		u.PUT("/:id", bucket.Update)
