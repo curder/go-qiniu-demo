@@ -9,26 +9,19 @@ import (
 	"strconv"
 )
 
-// 删除账户
-func Delete(c *gin.Context) {
+// 恢复账号
+func Restore(c *gin.Context) {
 	var (
 		accountID    int
 		rowsAffected int64
 		err          error
 	)
 
-	log.Info("account delete function called.")
+	log.Info("account restore function called.")
 
-	accountID, _ = strconv.Atoi(c.Param("id"))
+	accountID, err = strconv.Atoi(c.Param("id"))
 
-	// 检查是否存在
-	if _, err = account.AccountSvc.GetAccountByID(uint64(accountID)); err != nil {
-		log.Warnf("[account] delete account err, %v", err)
-		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
-		return
-	}
-
-	if rowsAffected, err = account.AccountSvc.DeleteAccount(uint64(accountID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = account.AccountSvc.RestoreAccount(uint64(accountID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[account] delete account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

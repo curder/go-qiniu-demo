@@ -9,7 +9,9 @@ import (
 // 使用大写的service对外保留方法
 type Service interface {
 	CreateAccount(account model.AccountModel) (id uint64, err error)
-	DeleteAccount(id uint64) error
+	DeleteAccount(id uint64) (rowsAffected int64, err error)
+	RestoreAccount(id uint64) (rowsAffected int64, err error)
+	ForceDeleteAccount(id uint64) (rowsAffected int64, err error)
 	UpdateAccount(id uint64, accountMap map[string]interface{}) error
 	GetAccounts() ([]*model.AccountModel, error)
 	GetAccountByID(id uint64) (*model.AccountModel, error)
@@ -43,8 +45,26 @@ func (srv *accountSvc) CreateAccount(account model.AccountModel) (id uint64, err
 }
 
 // 删除账户
-func (srv *accountSvc) DeleteAccount(id uint64) (err error) {
-	if err = srv.accountRepo.Delete(model.GetDB(), id); err != nil {
+func (srv *accountSvc) DeleteAccount(id uint64) (rowsAffected int64, err error) {
+	if rowsAffected, err = srv.accountRepo.Delete(model.GetDB(), id); err != nil {
+		return
+	}
+
+	return
+}
+
+// 恢复账号
+func (srv *accountSvc) RestoreAccount(id uint64) (rowsAffected int64, err error) {
+	if rowsAffected, err = srv.accountRepo.Restore(model.GetDB(), id); err != nil {
+		return
+	}
+
+	return
+}
+
+// 强制删除账户
+func (srv *accountSvc) ForceDeleteAccount(id uint64) (rowsAffected int64, err error) {
+	if rowsAffected, err = srv.accountRepo.ForceDelete(model.GetDB(), id); err != nil {
 		return
 	}
 

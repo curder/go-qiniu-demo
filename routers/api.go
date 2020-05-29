@@ -42,6 +42,8 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		u.GET("/:id", account.Show)
 		u.PUT("/:id", account.Update)
 		u.DELETE("/:id", account.Delete)
+		u.DELETE("/:id/force", account.ForceDelete)
+		u.PUT("/:id/restore", account.Restore)
 	}
 
 	return g

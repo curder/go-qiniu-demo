@@ -8,7 +8,9 @@ import (
 // Repo 定义账户仓库接口
 type Repo interface {
 	Create(db *gorm.DB, user model.AccountModel) (id uint64, err error)
-	Delete(db *gorm.DB, id uint64) error
+	Delete(db *gorm.DB, id uint64) (rowsAffected int64, err error)
+	Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error)
+	ForceDelete(db *gorm.DB, id uint64) (rowsAffected int64, err error)
 	Update(db *gorm.DB, id uint64, accountMap map[string]interface{}) error
 	GetAccounts(db *gorm.DB) ([]*model.AccountModel, error)
 	GetAccountByID(db *gorm.DB, id uint64) (*model.AccountModel, error)
@@ -33,7 +35,7 @@ func (repo *accountRepo) Create(db *gorm.DB, account model.AccountModel) (id uin
 }
 
 // 删除账户信息
-func (repo *accountRepo) Delete(db *gorm.DB, id uint64) error {
+func (repo *accountRepo) Delete(db *gorm.DB, id uint64) (rowsAffected int64, err error) {
 	var (
 		account model.AccountModel
 		result  *gorm.DB
@@ -41,7 +43,31 @@ func (repo *accountRepo) Delete(db *gorm.DB, id uint64) error {
 
 	result = db.Where("id = ?", id).Delete(&account)
 
-	return result.Error
+	return result.RowsAffected, result.Error
+}
+
+// 恢复删除的数据
+func (repo *accountRepo) Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error) {
+	var (
+		account model.AccountModel
+		result  *gorm.DB
+	)
+
+	result = db.Unscoped().Where("id = ?", id).Find(&account).Update("deleted_at", gorm.Expr("NULL"))
+
+	return result.RowsAffected, result.Error
+}
+
+// 强制删除账户信息
+func (repo *accountRepo) ForceDelete(db *gorm.DB, id uint64) (rowsAffected int64, err error) {
+	var (
+		account model.AccountModel
+		result  *gorm.DB
+	)
+
+	result = db.Unscoped().Where("id = ?", id).Delete(&account)
+
+	return result.RowsAffected, result.Error
 }
 
 // 更新账户接口
