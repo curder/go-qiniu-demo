@@ -12,9 +12,9 @@ type Repo interface {
 	Restore(db *gorm.DB, id uint64) (RowsAffected int64, err error)
 	ForceDelete(db *gorm.DB, id uint64) (rowsAffected int64, err error)
 	Update(db *gorm.DB, id uint64, accountMap map[string]interface{}) error
-	GetAccounts(db *gorm.DB) ([]*model.AccountModel, error)
-	GetAccountByID(db *gorm.DB, id uint64) (*model.AccountModel, error)
-	GetAccountByEmail(db *gorm.DB, email string) (*model.AccountModel, error)
+	GetList(db *gorm.DB) ([]*model.AccountModel, error)
+	GetByID(db *gorm.DB, id uint64) (*model.AccountModel, error)
+	GetByEmail(db *gorm.DB, email string) (*model.AccountModel, error)
 }
 
 // userRepo 用户仓库
@@ -76,7 +76,7 @@ func (repo *accountRepo) Update(db *gorm.DB, id uint64, accountMap map[string]in
 		account *model.AccountModel
 	)
 	// 检查账户是否存在
-	if account, err = repo.GetAccountByID(db, id); err != nil {
+	if account, err = repo.GetByID(db, id); err != nil {
 		return err
 	}
 
@@ -84,7 +84,7 @@ func (repo *accountRepo) Update(db *gorm.DB, id uint64, accountMap map[string]in
 }
 
 // 获取账户列表
-func (repo *accountRepo) GetAccounts(db *gorm.DB) (accounts []*model.AccountModel, error error) {
+func (repo *accountRepo) GetList(db *gorm.DB) (accounts []*model.AccountModel, error error) {
 	var (
 		result *gorm.DB
 	)
@@ -96,7 +96,7 @@ func (repo *accountRepo) GetAccounts(db *gorm.DB) (accounts []*model.AccountMode
 }
 
 // 通过ID获取账户信息
-func (repo *accountRepo) GetAccountByID(db *gorm.DB, id uint64) (*model.AccountModel, error) {
+func (repo *accountRepo) GetByID(db *gorm.DB, id uint64) (*model.AccountModel, error) {
 	var (
 		account model.AccountModel
 		result  *gorm.DB
@@ -108,7 +108,7 @@ func (repo *accountRepo) GetAccountByID(db *gorm.DB, id uint64) (*model.AccountM
 }
 
 // 通过邮箱获取账户信息
-func (repo *accountRepo) GetAccountByEmail(db *gorm.DB, email string) (*model.AccountModel, error) {
+func (repo *accountRepo) GetByEmail(db *gorm.DB, email string) (*model.AccountModel, error) {
 	var (
 		account model.AccountModel
 		result  *gorm.DB

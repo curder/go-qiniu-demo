@@ -35,7 +35,7 @@ func Update(c *gin.Context) {
 	accountMap["secret_key"] = req.SecretKey
 	accountMap["description"] = req.Description
 
-	if err = account.AccountSvc.UpdateAccount(uint64(accountID), accountMap); err != nil {
+	if err = account.AccountSvc.Update(uint64(accountID), accountMap); err != nil {
 		log.Warnf("[account] store account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

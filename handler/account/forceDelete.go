@@ -21,7 +21,7 @@ func ForceDelete(c *gin.Context) {
 
 	accountID, err = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = account.AccountSvc.ForceDeleteAccount(uint64(accountID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = account.AccountSvc.ForceDelete(uint64(accountID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[account] delete account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

@@ -23,7 +23,7 @@ func Show(c *gin.Context) {
 
 	accountID, _ = strconv.Atoi(c.Param("id"))
 
-	if accountModel, err = account.AccountSvc.GetAccountByID(uint64(accountID)); err != nil {
+	if accountModel, err = account.AccountSvc.GetByID(uint64(accountID)); err != nil {
 		log.Warnf("[account] show account err, %v", err)
 		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
 		return

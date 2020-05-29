@@ -21,7 +21,7 @@ func Restore(c *gin.Context) {
 
 	accountID, err = strconv.Atoi(c.Param("id"))
 
-	if rowsAffected, err = account.AccountSvc.RestoreAccount(uint64(accountID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = account.AccountSvc.Restore(uint64(accountID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[account] delete account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

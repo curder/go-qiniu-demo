@@ -17,7 +17,7 @@ func Index(c *gin.Context) {
 		accounts []*model.AccountModel
 		err      error
 	)
-	if accounts, err = account.AccountSvc.GetAccounts(); err != nil {
+	if accounts, err = account.AccountSvc.GetList(); err != nil {
 		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
 		return
 	}

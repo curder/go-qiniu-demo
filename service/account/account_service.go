@@ -8,14 +8,14 @@ import (
 // Service 用户服务接口定义
 // 使用大写的service对外保留方法
 type Service interface {
-	CreateAccount(account model.AccountModel) (id uint64, err error)
-	DeleteAccount(id uint64) (rowsAffected int64, err error)
-	RestoreAccount(id uint64) (rowsAffected int64, err error)
-	ForceDeleteAccount(id uint64) (rowsAffected int64, err error)
-	UpdateAccount(id uint64, accountMap map[string]interface{}) error
-	GetAccounts() ([]*model.AccountModel, error)
-	GetAccountByID(id uint64) (*model.AccountModel, error)
-	GetAccountByEmail(email string) (*model.AccountModel, error)
+	Create(account model.AccountModel) (id uint64, err error)
+	Delete(id uint64) (rowsAffected int64, err error)
+	Restore(id uint64) (rowsAffected int64, err error)
+	ForceDelete(id uint64) (rowsAffected int64, err error)
+	Update(id uint64, accountMap map[string]interface{}) error
+	GetList() ([]*model.AccountModel, error)
+	GetByID(id uint64) (*model.AccountModel, error)
+	GetByEmail(email string) (*model.AccountModel, error)
 }
 
 // AccountSvc 直接初始化，可以避免在使用时再实例化
@@ -36,7 +36,7 @@ func NewAccountService() Service {
 }
 
 // 创建账户
-func (srv *accountSvc) CreateAccount(account model.AccountModel) (id uint64, err error) {
+func (srv *accountSvc) Create(account model.AccountModel) (id uint64, err error) {
 	if id, err = srv.accountRepo.Create(model.GetDB(), account); err != nil {
 		return id, err
 	}
@@ -45,7 +45,7 @@ func (srv *accountSvc) CreateAccount(account model.AccountModel) (id uint64, err
 }
 
 // 删除账户
-func (srv *accountSvc) DeleteAccount(id uint64) (rowsAffected int64, err error) {
+func (srv *accountSvc) Delete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = srv.accountRepo.Delete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -54,7 +54,7 @@ func (srv *accountSvc) DeleteAccount(id uint64) (rowsAffected int64, err error) 
 }
 
 // 恢复账号
-func (srv *accountSvc) RestoreAccount(id uint64) (rowsAffected int64, err error) {
+func (srv *accountSvc) Restore(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = srv.accountRepo.Restore(model.GetDB(), id); err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (srv *accountSvc) RestoreAccount(id uint64) (rowsAffected int64, err error)
 }
 
 // 强制删除账户
-func (srv *accountSvc) ForceDeleteAccount(id uint64) (rowsAffected int64, err error) {
+func (srv *accountSvc) ForceDelete(id uint64) (rowsAffected int64, err error) {
 	if rowsAffected, err = srv.accountRepo.ForceDelete(model.GetDB(), id); err != nil {
 		return
 	}
@@ -72,7 +72,7 @@ func (srv *accountSvc) ForceDeleteAccount(id uint64) (rowsAffected int64, err er
 }
 
 // 更新账户
-func (srv *accountSvc) UpdateAccount(id uint64, accountMap map[string]interface{}) (err error) {
+func (srv *accountSvc) Update(id uint64, accountMap map[string]interface{}) (err error) {
 	if err = srv.accountRepo.Update(model.GetDB(), id, accountMap); err != nil {
 		return
 	}
@@ -80,24 +80,24 @@ func (srv *accountSvc) UpdateAccount(id uint64, accountMap map[string]interface{
 }
 
 // 获取账户列表
-func (srv *accountSvc) GetAccounts() (modelAccounts []*model.AccountModel, err error) {
-	if modelAccounts, err = srv.accountRepo.GetAccounts(model.GetDB()); err != nil {
+func (srv *accountSvc) GetList() (modelAccounts []*model.AccountModel, err error) {
+	if modelAccounts, err = srv.accountRepo.GetList(model.GetDB()); err != nil {
 		return
 	}
 	return
 }
 
 // 通过ID获取账户信息
-func (srv *accountSvc) GetAccountByID(id uint64) (accountModel *model.AccountModel, err error) {
-	if accountModel, err = srv.accountRepo.GetAccountByID(model.GetDB(), id); err != nil {
+func (srv *accountSvc) GetByID(id uint64) (accountModel *model.AccountModel, err error) {
+	if accountModel, err = srv.accountRepo.GetByID(model.GetDB(), id); err != nil {
 		return
 	}
 	return
 }
 
 // 通过邮箱获取账户信息
-func (srv *accountSvc) GetAccountByEmail(email string) (accountModel *model.AccountModel, err error) {
-	if accountModel, err = srv.accountRepo.GetAccountByEmail(model.GetDB(), email); err != nil {
+func (srv *accountSvc) GetByEmail(email string) (accountModel *model.AccountModel, err error) {
+	if accountModel, err = srv.accountRepo.GetByEmail(model.GetDB(), email); err != nil {
 		return
 	}
 	return

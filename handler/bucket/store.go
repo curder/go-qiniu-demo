@@ -33,7 +33,7 @@ func Store(c *gin.Context) {
 	log.Infof("req %#v", req)
 
 	// 判断账户是否存在
-	if _, err = account.AccountSvc.GetAccountByID(uint64(accountID)); err != nil {
+	if _, err = account.AccountSvc.GetByID(uint64(accountID)); err != nil {
 		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
 		return
 	}

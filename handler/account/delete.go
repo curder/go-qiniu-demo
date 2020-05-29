@@ -22,13 +22,13 @@ func Delete(c *gin.Context) {
 	accountID, _ = strconv.Atoi(c.Param("id"))
 
 	// 检查是否存在
-	if _, err = account.AccountSvc.GetAccountByID(uint64(accountID)); err != nil {
+	if _, err = account.AccountSvc.GetByID(uint64(accountID)); err != nil {
 		log.Warnf("[account] delete account err, %v", err)
 		handler.SendResponse(c, errno.ErrAccountNotFound, nil)
 		return
 	}
 
-	if rowsAffected, err = account.AccountSvc.DeleteAccount(uint64(accountID)); err != nil && rowsAffected != 0 {
+	if rowsAffected, err = account.AccountSvc.Delete(uint64(accountID)); err != nil && rowsAffected != 0 {
 		log.Warnf("[account] delete account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return

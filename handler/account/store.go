@@ -37,7 +37,7 @@ func Store(c *gin.Context) {
 		UpdatedAt:   time.Now(),
 	}
 
-	if id, err = account.AccountSvc.CreateAccount(a); err != nil {
+	if id, err = account.AccountSvc.Create(a); err != nil {
 		log.Warnf("[account] store account err, %v", err)
 		handler.SendResponse(c, errno.InternalServerError, nil)
 		return
