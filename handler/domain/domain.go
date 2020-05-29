@@ -17,3 +17,11 @@ type ShowDomainInfoResponse struct {
 	CreatedAt   string `json:"created_at"`
 	UpdatedAt   string `json:"updated_at"`
 }
+
+// 更新域名请求
+type UpdateDomainRequest struct {
+	BucketID    uint64 `form:"bucket_id" binding:"required"`
+	Protocol    string `form:"protocol" binding:"required"`
+	Hostname    string `form:"hostname" binding:"required"`
+	Description string `form:"description"`
+}
