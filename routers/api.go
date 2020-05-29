@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/curder/go-qiniu-demo/handler"
 	"github.com/curder/go-qiniu-demo/handler/account"
+	"github.com/curder/go-qiniu-demo/handler/bucket"
 	"github.com/curder/go-qiniu-demo/handler/users"
 	"github.com/curder/go-qiniu-demo/routers/middleware"
 	"github.com/gin-gonic/gin"
@@ -34,6 +35,7 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		u.GET("/users", users.Info)
 	}
 
+	// Accounts
 	u = g.Group("/v1/accounts")
 	u.Use(middleware.AuthMiddleware())
 	{
@@ -44,6 +46,19 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		u.DELETE("/:id", account.Delete)
 		u.DELETE("/:id/force", account.ForceDelete)
 		u.PUT("/:id/restore", account.Restore)
+	}
+
+	// Buckets
+	u = g.Group("/v1/buckets")
+	u.Use(middleware.AuthMiddleware())
+	{
+		//u.GET("", bucket.Index)
+		u.POST("", bucket.Store)
+		//u.GET("/:id", bucket.Show)
+		//u.PUT("/:id", bucket.Update)
+		u.DELETE("/:id", bucket.Delete)
+		//u.DELETE("/:id/force", bucket.ForceDelete)
+		u.PUT("/:id/restore", bucket.Restore)
 	}
 
 	return g
