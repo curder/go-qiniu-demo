@@ -59,14 +59,6 @@ type Config struct {
 	PrivateURL    bool
 }
 
-var zoneData = map[string]*storage.Zone{
-	"huadong":  &storage.ZoneHuadong,
-	"huabei":   &storage.ZoneHuabei,
-	"huanan":   &storage.ZoneHuanan,
-	"beimei":   &storage.ZoneBeimei,
-	"xinjiapo": &storage.ZoneXinjiapo,
-}
-
 // 自定义上传返回值结构体
 type PutRet struct {
 	Key    string
