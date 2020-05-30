@@ -67,6 +67,15 @@ var zoneData = map[string]*storage.Zone{
 	"xinjiapo": &storage.ZoneXinjiapo,
 }
 
+// 自定义上传返回值结构体
+type PutRet struct {
+	Key    string
+	Hash   string
+	Fsize  int
+	Bucket string
+	Name   string
+}
+
 var urlRegexp = regexp.MustCompile(`(https?:)?//((\w+).)+(\w+)/`)
 
 func New(config *Config) (client *Client) {
@@ -157,7 +166,7 @@ func (c *Client) Put(urlPath string, reader io.Reader) (r *Object, err error) {
 		putPolicy    storage.PutPolicy
 		upToken      string
 		formUploader *storage.FormUploader
-		ret          storage.PutRet
+		ret          PutRet
 		dataLen      int64
 		putExtra     storage.PutExtra
 		now          time.Time
@@ -178,7 +187,8 @@ func (c *Client) Put(urlPath string, reader io.Reader) (r *Object, err error) {
 	}
 
 	putPolicy = storage.PutPolicy{
-		Scope: fmt.Sprintf("%s:%s", c.Config.Bucket, urlPath),
+		Scope:      fmt.Sprintf("%s:%s", c.Config.Bucket, urlPath),
+		ReturnBody: `{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}`, // 使用 returnBody 自定义回复格式
 	}
 
 	if c.putPolicy != nil {
@@ -188,7 +198,7 @@ func (c *Client) Put(urlPath string, reader io.Reader) (r *Object, err error) {
 	upToken = putPolicy.UploadToken(c.mac)
 
 	formUploader = storage.NewFormUploader(&c.storageCfg)
-	ret = storage.PutRet{}
+	ret = PutRet{}
 	dataLen = int64(len(buffer))
 
 	putExtra = storage.PutExtra{
