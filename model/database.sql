@@ -50,3 +50,18 @@ CREATE TABLE IF NOT EXISTS `qiniu_domains` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='七牛云域名';
+
+-- 七牛资源
+CREATE TABLE IF NOT EXISTS `qiniu_files` (
+    `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `bucket_id` bigint(20) unsigned NOT NULL COMMENT '所属存储桶',
+    `file_name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件名',
+    `file_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件类型',
+    `storage_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '存储类型',
+    `file_size` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件大小',
+    `last_modified` timestamp NULL DEFAULT NULL COMMENT '最后更新',
+    `e_tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件etag信息',
+    `deleted_at` timestamp NULL DEFAULT NULL,
+    `created_at` timestamp NULL DEFAULT NULL,
+    `updated_at` timestamp NULL DEFAULT NULL,
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='七牛云文件资源';
